@@ -1,0 +1,10 @@
+numpy
+lxml
+pyinstaller
+
+# PySimpleGUI Package
+PySimpleGUI
+
+# Python Linters
+flake8
+autopep8

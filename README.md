@@ -1,2 +1,2 @@
 # RoI_Calculator
-Monte-Carlo based Return of Investment calculator
+Monte-Carlo sampling based Return of Investment (RoI) calculator.

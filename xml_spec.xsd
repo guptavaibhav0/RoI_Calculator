@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!-- "NullOrInteger" Type Defination -->
+<xs:simpleType name="NullOrInteger">
+    <xs:union>
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:length value="0"/>
+            </xs:restriction>
+        </xs:simpleType>
+        <xs:simpleType>
+            <xs:restriction base="xs:integer"/>
+        </xs:simpleType>
+    </xs:union>
+</xs:simpleType>
+
+<!-- "Gaussian" Element Defination -->
+<xs:element name="Gaussian">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="mu" type="xs:decimal"/>
+            <xs:element name="sigma" type="xs:decimal"/>
+            <xs:element name="startYear" type="NullOrInteger"/>
+            <xs:element name="endYear" type="NullOrInteger"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- "Constant" Element Defination -->
+<xs:element name="Constant">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="value" type="xs:decimal"/>
+            <xs:element name="startYear" type="NullOrInteger"/>
+            <xs:element name="endYear" type="NullOrInteger"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- "Pareto" Element Defination -->
+<xs:element name="Pareto">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="alpha" type="xs:decimal"/>
+            <xs:element name="startYear" type="NullOrInteger"/>
+            <xs:element name="endYear" type="NullOrInteger"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- "RandomType" Type Defination -->
+<xs:complexType name="RandomType">
+    <xs:choice>
+        <xs:element ref="Gaussian" maxOccurs="1"/>
+        <xs:element ref="Constant" maxOccurs="1"/>
+        <xs:element ref="Pareto" maxOccurs="1"/>
+    </xs:choice>
+</xs:complexType>
+
+<!-- "CashFlowItem" Element Defination -->
+<xs:element name="CashFlowItem">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="name" type="xs:token"/>
+            <xs:element name="desc" type="xs:normalizedString"/>
+            <xs:element name="upfrontCost" type="RandomType"/>
+            <xs:element name="recurringCost" type="RandomType"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- "CashFlowGroup" Element Defination -->
+<xs:element name="CashFlowGroup">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="name" type="xs:token"/>
+            <xs:element name="desc" type="xs:normalizedString"/>
+            <xs:element ref="CashFlowItem" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- "CashFlowSheet" Element Defination -->
+<xs:element name="CashFlowSheet">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="CashFlowGroup" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+<!-- "Summary" Element Defination -->
+<xs:element name="Summary">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="InterestRate" type="xs:decimal"/>
+            <xs:element name="Years" type="xs:integer"/>
+            <xs:element name="Iterations" type="xs:integer"/>
+            <xs:element ref="CashFlowSheet"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+</xs:schema>
